@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Papelería Gamis - Papelería, Regalos e Internet</title>
+<meta name="description" content="Tu papelería favorita. Útiles escolares, regalos, joyería, internet, paquetes escolares y sistema de apartados.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--rosa:#e8477a;--rosa-claro:#fde8f0;--amarillo:#f5c842;--amarillo-claro:#fff9e0;--azul:#2a5caa;--azul-claro:#deeaf8;--verde:#3bb87a;--verde-claro:#d8f5e8;--morado:#7c4dcc;--morado-claro:#ede6fb;--naranja:#f06a1a;--naranja-claro:#fde8d6;--texto:#1a1a2e;--texto-mid:#4a4a6a;--fondo:#fffdf8;--blanco:#ffffff}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--texto);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,253,248,0.95);backdrop-filter:blur(12px);border-bottom:1.5px solid #f0e8d0;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:64px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--rosa);letter-spacing:-0.5px;text-decoration:none}
+.nav-logo span{color:var(--azul)}
+.nav-links{display:flex;gap:28px}
+.nav-links a{text-decoration:none;font-size:14px;font-weight:500;color:var(--texto-mid);transition:color .2s}
+.nav-links a:hover{color:var(--rosa)}
+.nav-cta{background:var(--rosa);color:#fff;border:none;border-radius:50px;padding:9px 22px;font-size:14px;font-weight:600;cursor:pointer;transition:transform .2s,box-shadow .2s;text-decoration:none;display:inline-block}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(232,71,122,.35)}
+.hero{min-height:100vh;display:flex;align-items:center;padding:100px 5vw 60px;position:relative;overflow:hidden;background:linear-gradient(135deg,#fffdf8 0%,#fde8f0 40%,#deeaf8 100%)}
+.hero-bg-shapes{position:absolute;inset:0;pointer-events:none;z-index:0}
+.shape{position:absolute;border-radius:50%;opacity:.13}
+.s1{width:420px;height:420px;background:var(--rosa);top:-100px;right:-80px}
+.s2{width:280px;height:280px;background:var(--amarillo);bottom:40px;right:200px}
+.s3{width:180px;height:180px;background:var(--azul);top:120px;left:-60px}
+.s4{width:140px;height:140px;background:var(--verde);bottom:100px;left:80px}
+.hero-content{position:relative;z-index:1;max-width:640px}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--amarillo);color:#7a5200;border-radius:50px;padding:6px 16px;font-size:13px;font-weight:600;margin-bottom:24px;animation:fadeDown .6s ease both}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(38px,6vw,72px);font-weight:900;line-height:1.08;color:var(--texto);margin-bottom:20px;animation:fadeUp .7s .1s ease both}
+.hero h1 .accent{color:var(--rosa)}
+.hero h1 .accent2{color:var(--azul)}
+.hero p{font-size:18px;line-height:1.7;color:var(--texto-mid);margin-bottom:36px;max-width:520px;animation:fadeUp .7s .2s ease both}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .7s .3s ease both}
+.btn-primary{background:var(--rosa);color:#fff;border:none;border-radius:50px;padding:14px 32px;font-size:16px;font-weight:600;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s;display:inline-block}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(232,71,122,.4)}
+.btn-secondary{background:transparent;color:var(--azul);border:2px solid var(--azul);border-radius:50px;padding:12px 28px;font-size:16px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s;display:inline-block}
+.btn-secondary:hover{background:var(--azul);color:#fff}
+.hero-stats{display:flex;gap:40px;margin-top:52px;animation:fadeUp .7s .4s ease both}
+.stat-num{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:var(--texto)}
+.stat-label{font-size:13px;color:var(--texto-mid);margin-top:2px}
+.hero-float{position:absolute;right:5vw;top:50%;transform:translateY(-50%);z-index:1;display:flex;flex-direction:column;gap:16px;animation:fadeLeft .8s .3s ease both}
+.float-card{background:var(--blanco);border-radius:18px;padding:16px 20px;box-shadow:0 8px 32px rgba(0,0,0,.10);display:flex;align-items:center;gap:14px;min-width:220px}
+.float-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.float-title{font-size:14px;font-weight:600;color:var(--texto)}
+.float-sub{font-size:12px;color:var(--texto-mid);margin-top:1px}
+.section{padding:80px 5vw}
+.section-tag{display:inline-block;background:var(--rosa-claro);color:var(--rosa);border-radius:50px;padding:5px 16px;font-size:13px;font-weight:600;margin-bottom:14px;letter-spacing:.4px}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:900;line-height:1.15;color:var(--texto);margin-bottom:14px}
+.section-title .accent{color:var(--rosa)}
+.section-sub{font-size:17px;color:var(--texto-mid);max-width:580px;line-height:1.7;margin-bottom:48px}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.service-card{background:var(--blanco);border-radius:20px;padding:28px 24px;border:1.5px solid #f0e8d8;transition:transform .25s,box-shadow .25s;cursor:default}
+.service-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.09)}
+.svc-icon-wrap{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:16px}
+.service-card h3{font-size:17px;font-weight:600;margin-bottom:8px}
+.service-card p{font-size:14px;color:var(--texto-mid);line-height:1.6}
+.svc-badge{display:inline-block;background:var(--amarillo-claro);color:#7a5200;border-radius:50px;padding:3px 12px;font-size:12px;font-weight:600;margin-top:12px}
+.aparado-section{background:linear-gradient(135deg,#1a1a2e 0%,#2a5caa 100%);color:#fff;border-radius:32px;padding:64px 5vw;margin:0 5vw;position:relative;overflow:hidden}
+.aparado-content{position:relative;z-index:1}
+.aparado-section .section-tag{background:rgba(255,255,255,.15);color:#fff}
+.aparado-section .section-title{color:#fff}
+.aparado-section .section-title .accent{color:var(--amarillo)}
+.aparado-section .section-sub{color:rgba(255,255,255,.75)}
+.aparado-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin-top:40px}
+.step-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:24px 20px;text-align:center}
+.step-num{font-family:'Playfair Display',serif;font-size:42px;font-weight:900;color:var(--amarillo);line-height:1;margin-bottom:12px}
+.step-card h4{font-size:15px;font-weight:600;color:#fff;margin-bottom:6px}
+.step-card p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.5}
+.joyeria-section{background:linear-gradient(135deg,#2a1a4a 0%,#7c4dcc 100%);color:#fff;border-radius:32px;padding:64px 5vw;margin:40px 5vw;position:relative;overflow:hidden}
+.joyeria-section .section-tag{background:rgba(245,200,66,.2);color:var(--amarillo)}
+.joyeria-section .section-title{color:#fff}
+.joyeria-section .section-title .accent{color:var(--amarillo)}
+.joyeria-section .section-sub{color:rgba(255,255,255,.75)}
+.jewelry-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+.jewelry-item{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:20px 16px;text-align:center;transition:background .2s,transform .2s;cursor:default}
+.jewelry-item:hover{background:rgba(255,255,255,.2);transform:translateY(-4px)}
+.jewelry-item .j-icon{font-size:32px;margin-bottom:10px;display:block}
+.jewelry-item span{font-size:14px;font-weight:500;color:#fff}
+.paquetes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.paquete-card{background:var(--blanco);border-radius:22px;overflow:hidden;border:1.5px solid #f0e8d8;transition:transform .25s,box-shadow .25s;cursor:default}
+.paquete-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.1)}
+.paquete-header{padding:24px;position:relative}
+.paquete-nivel{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;opacity:.85}
+.paquete-card h3{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;margin-bottom:4px}
+.paquete-card .precio{font-size:28px;font-weight:700;margin-top:8px}
+.paquete-card .precio span{font-size:14px;font-weight:400;opacity:.75}
+.paquete-items{padding:20px 24px 24px;border-top:1px solid #f0e8d8}
+.paquete-items li{list-style:none;font-size:14px;color:var(--texto-mid);padding:5px 0;display:flex;align-items:center;gap:8px}
+.paquete-items li::before{content:'✓';font-weight:700;font-size:13px}
+.paquete-cta{margin:16px 24px 0;display:block;text-align:center;border-radius:50px;padding:11px;font-size:14px;font-weight:600;text-decoration:none;transition:all .2s}
+.online-banner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;background:var(--amarillo-claro);border:2px solid var(--amarillo);border-radius:24px;padding:36px 40px;margin:0 5vw 80px}
+.online-banner h2{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--texto);margin-bottom:6px}
+.online-banner p{font-size:16px;color:var(--texto-mid);max-width:440px}
+.horarios-section{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.horario-card{background:var(--blanco);border-radius:22px;padding:32px 28px;border:1.5px solid #f0e8d8}
+.horario-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #f5f0e8;font-size:15px}
+.horario-row:last-child{border-bottom:none}
+.horario-row .dia{font-weight:500}
+.horario-row .hora{color:var(--rosa);font-weight:600;background:var(--rosa-claro);border-radius:50px;padding:3px 12px;font-size:13px}
+.contact-card{background:var(--blanco);border-radius:22px;padding:32px 28px;border:1.5px solid #f0e8d8}
+.contact-item{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid #f5f0e8}
+.contact-item:last-child{border-bottom:none}
+.c-icon-wrap{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.c-label{font-size:12px;color:var(--texto-mid);margin-bottom:2px}
+.c-value{font-size:15px;font-weight:500}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.review-card{background:var(--blanco);border-radius:18px;padding:22px;border:1.5px solid #f0e8d8}
+.review-stars{color:#f5c842;font-size:16px;margin-bottom:10px}
+.review-text{font-size:14px;color:var(--texto-mid);line-height:1.65;margin-bottom:14px;font-style:italic}
+.review-author{font-size:13px;font-weight:600;color:var(--texto)}
+.review-date{font-size:12px;color:var(--texto-mid)}
+footer{background:var(--texto);color:#fff;padding:56px 5vw 32px}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-brand .brand-name{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:#fff;margin-bottom:12px}
+.footer-brand .brand-name span{color:var(--rosa)}
+.footer-brand p{font-size:14px;color:rgba(255,255,255,.6);line-height:1.7}
+.footer-col h4{font-size:14px;font-weight:600;margin-bottom:16px;color:rgba(255,255,255,.85)}
+.footer-col a{display:block;text-decoration:none;font-size:13px;color:rgba(255,255,255,.55);margin-bottom:10px;transition:color .2s}
+.footer-col a:hover{color:var(--rosa)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:13px;color:rgba(255,255,255,.4)}
+.rating-pill{background:rgba(245,200,66,.15);color:var(--amarillo);border-radius:50px;padding:5px 16px;font-size:13px;font-weight:600;border:1px solid rgba(245,200,66,.3)}
+.wa-btn{position:fixed;bottom:28px;right:28px;z-index:200;width:58px;height:58px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(37,211,102,.45);text-decoration:none;transition:transform .2s}
+.wa-btn:hover{transform:scale(1.1)}
+.wa-btn svg{width:28px;height:28px;fill:#fff}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes fadeLeft{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.float-card:nth-child(1){animation:float 4s ease-in-out infinite}
+.float-card:nth-child(2){animation:float 4s .7s ease-in-out infinite}
+.float-card:nth-child(3){animation:float 4s 1.4s ease-in-out infinite}
+@media(max-width:768px){
+  .hero-float{display:none}
+  .horarios-section{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  .aparado-section,.joyeria-section{margin:0 2vw}
+  .online-banner{margin:0 2vw 60px;padding:28px 24px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Gamis<span>.</span></a>
+  <div class="nav-links">
+    <a href="#servicios">Servicios</a>
+    <a href="#apartados">Apartados</a>
+    <a href="#joyeria">Joyería</a>
+    <a href="#paquetes">Paquetes</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+  <a href="#online" class="nav-cta">Tienda Online</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-shapes">
+    <div class="shape s1"></div>
+    <div class="shape s2"></div>
+    <div class="shape s3"></div>
+    <div class="shape s4"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">⭐ 4.3 en Google · 62 reseñas</div>
+    <h1>Tu papelería<br><span class="accent">favorita</span><br><span class="accent2">en un solo lugar</span></h1>
+    <p>Papelería, regalos, joyería, internet y más. Todo lo que necesitas para la escuela, la oficina y los momentos especiales.</p>
+    <div class="hero-btns">
+      <a href="#servicios" class="btn-primary">Ver servicios</a>
+      <a href="#paquetes" class="btn-secondary">Paquetes escolares</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">+15</div><div class="stat-label">Años de experiencia</div></div>
+      <div><div class="stat-num">62</div><div class="stat-label">Reseñas positivas</div></div>
+      <div><div class="stat-num">9am–9pm</div><div class="stat-label">Horario diario</div></div>
+    </div>
+  </div>
+  <div class="hero-float">
+    <div class="float-card">
+      <div class="float-icon" style="background:#fde8f0">💍</div>
+      <div><div class="float-title">Joyería</div><div class="float-sub">Bisutería y accesorios</div></div>
+    </div>
+    <div class="float-card">
+      <div class="float-icon" style="background:#d8f5e8">🎒</div>
+      <div><div class="float-title">Paquetes escolares</div><div class="float-sub">Kits completos</div></div>
+    </div>
+    <div class="float-card">
+      <div class="float-icon" style="background:#deeaf8">🛒</div>
+      <div><div class="float-title">Tienda online</div><div class="float-sub">Compra desde casa</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="servicios">
+  <div style="text-align:center;margin-bottom:48px">
+    <div class="section-tag">Nuestros servicios</div>
+    <h2 class="section-title">Todo lo que <span class="accent">necesitas</span></h2>
+    <p class="section-sub" style="margin:0 auto">Desde útiles escolares hasta regalos únicos — somos tu tienda de confianza.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="svc-icon-wrap" style="background:#fde8f0">✏️</div>
+      <h3>Papelería completa</h3>
+      <p>Cuadernos, lápices, colores, plumas, reglas, compases, libretas y todo para la escuela y oficina.</p>
+      <span class="svc-badge">Lo más buscado</span>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon-wrap" style="background:#fff9e0">🎁</div>
+      <h3>Regalos y novedades</h3>
+      <p>Artículos de decoración, detalles para toda ocasión, envolturas, moños y tarjetas personalizadas.</p>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon-wrap" style="background:#deeaf8">💻</div>
+      <h3>Internet y cómputo</h3>
+      <p>Renta de computadoras, impresiones, copias, escaneo, tareas en Word y Excel, impresión a color.</p>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon-wrap" style="background:#d8f5e8">🖨️</div>
+      <h3>Impresiones</h3>
+      <p>Impresiones B/N y a color, plastificados, encuadernados, fotos y documentos de todos los tamaños.</p>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon-wrap" style="background:#ede6fb">💍</div>
+      <h3>Joyería y bisutería</h3>
+      <p>Aretes, pulseras, collares, anillos y accesorios de moda. Para ti y para regalar en cualquier ocasión.</p>
+      <span class="svc-badge" style="background:#ede6fb;color:#5a30a0">¡Nuevo!</span>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon-wrap" style="background:#fde8d6">🎨</div>
+      <h3>Manualidades</h3>
+      <p>Cartulinas, foami, silicón, pinturas, pinceles, brillantina y materiales para maquetas.</p>
+    </div>
+  </div>
+</section>
+
+<div id="apartados">
+  <div class="aparado-section">
+    <div class="aparado-content">
+      <div style="text-align:center;margin-bottom:12px"><div class="section-tag">Sistema de apartados</div></div>
+      <h2 class="section-title" style="text-align:center">Aparta hoy,<br>paga cuando <span class="accent">puedas</span></h2>
+      <p class="section-sub" style="text-align:center;margin:0 auto">¿Te enamoraste de algo pero no traes todo el dinero? Sin problema — apartamos tu producto con solo un pequeño anticipo.</p>
+      <div class="aparado-steps">
+        <div class="step-card"><div class="step-num">01</div><h4>Elige tu producto</h4><p>Visítanos o contáctanos por WhatsApp y dinos qué quieres apartar.</p></div>
+        <div class="step-card"><div class="step-num">02</div><h4>Da un anticipo</h4><p>Con solo el 20% del precio lo separamos para ti. Sin burocracia.</p></div>
+        <div class="step-card"><div class="step-num">03</div><h4>Paga en partes</h4><p>Liquida en los días o semanas que necesites, a tu ritmo.</p></div>
+        <div class="step-card"><div class="step-num">04</div><h4>¡Llévalo!</h4><p>Al pagar el total, te entregamos tu producto. Fácil y seguro.</p></div>
+      </div>
+      <div style="text-align:center;margin-top:36px">
+        <a href="https://wa.me/52" style="background:var(--amarillo);color:#7a5200;border-radius:50px;padding:14px 36px;font-size:16px;font-weight:700;text-decoration:none;display:inline-block">Apartar por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="joyeria">
+  <div class="joyeria-section">
+    <div style="text-align:center;margin-bottom:12px"><div class="section-tag">Joyería y accesorios</div></div>
+    <h2 class="section-title" style="text-align:center">Brilla con nuestra<br><span class="accent">colección</span></h2>
+    <p class="section-sub" style="text-align:center;margin:0 auto 36px">Piezas únicas y de moda a precios accesibles. Perfectas para ti o para regalar.</p>
+    <div class="jewelry-grid">
+      <div class="jewelry-item"><span class="j-icon">👂</span><span>Aretes</span></div>
+      <div class="jewelry-item"><span class="j-icon">💛</span><span>Collares</span></div>
+      <div class="jewelry-item"><span class="j-icon">💍</span><span>Pulseras</span></div>
+      <div class="jewelry-item"><span class="j-icon">💎</span><span>Anillos</span></div>
+      <div class="jewelry-item"><span class="j-icon">👑</span><span>Diademas</span></div>
+      <div class="jewelry-item"><span class="j-icon">🎀</span><span>Accesorios</span></div>
+    </div>
+  </div>
+</div>
+
+<div id="online" style="padding:60px 0 0">
+  <div class="online-banner">
+    <div>
+      <h2>🛒 Compra desde casa</h2>
+      <p>Pide tus útiles, papelería y accesorios en línea y recógelos listos en tienda. ¡Sin filas!</p>
+    </div>
+    <a href="https://wa.me/52" class="btn-primary" style="background:#d48000;font-size:15px;padding:14px 28px">Comprar en línea →</a>
+  </div>
+</div>
+
+<section class="section" id="paquetes">
+  <div style="text-align:center;margin-bottom:48px">
+    <div class="section-tag">Paquetes escolares</div>
+    <h2 class="section-title">Kits completos<br>por <span class="accent">nivel</span></h2>
+    <p class="section-sub" style="margin:0 auto">Todo lo que pide la lista de útiles en un solo paquete. Pide el tuyo antes de que se acaben.</p>
+  </div>
+  <div class="paquetes-grid">
+    <div class="paquete-card">
+      <div class="paquete-header" style="background:linear-gradient(135deg,#deeaf8,#b5d4f4)">
+        <div class="paquete-nivel" style="color:#185fa5">Nivel básico</div>
+        <h3 style="color:#1a1a2e">Paquete Kínder</h3>
+        <div class="precio" style="color:#185fa5">$180 <span>/ kit</span></div>
+      </div>
+      <ul class="paquete-items">
+        <li>Crayolas jumbo (12 colores)</li>
+        <li>Pegamento en barra y líquido</li>
+        <li>Tijeras punta redonda</li>
+        <li>Cuaderno de pasta suave</li>
+        <li>Sacapuntas y borrador</li>
+      </ul>
+      <a href="https://wa.me/52" class="paquete-cta" style="background:#deeaf8;color:#185fa5">Pedir paquete</a>
+    </div>
+    <div class="paquete-card">
+      <div class="paquete-header" style="background:linear-gradient(135deg,#fde8f0,#f5c4d1)">
+        <div class="paquete-nivel" style="color:#993356">Nivel básico</div>
+        <h3 style="color:#1a1a2e">Paquete Primaria</h3>
+        <div class="precio" style="color:#e8477a">$350 <span>/ kit</span></div>
+      </div>
+      <ul class="paquete-items">
+        <li>Lápices, colores y plumas</li>
+        <li>5 cuadernos (diferentes materias)</li>
+        <li>Regla, escuadras y compás</li>
+        <li>Pegamento, tijeras y etiquetas</li>
+        <li>Folder, separadores, protectores</li>
+      </ul>
+      <a href="https://wa.me/52" class="paquete-cta" style="background:#fde8f0;color:#e8477a">Pedir paquete</a>
+    </div>
+    <div class="paquete-card">
+      <div class="paquete-header" style="background:linear-gradient(135deg,#fff9e0,#fac775)">
+        <div class="paquete-nivel" style="color:#854f0b">Nivel medio</div>
+        <h3 style="color:#1a1a2e">Paquete Secundaria</h3>
+        <div class="precio" style="color:#d48000">$520 <span>/ kit</span></div>
+      </div>
+      <ul class="paquete-items">
+        <li>Cuadernos profesionales y folders</li>
+        <li>Juego de geometría completo</li>
+        <li>Calculadora básica</li>
+        <li>Marcadores, resaltadores y plumas</li>
+        <li>Hojas blancas, engrapadora y clips</li>
+      </ul>
+      <a href="https://wa.me/52" class="paquete-cta" style="background:#fff9e0;color:#d48000">Pedir paquete</a>
+    </div>
+    <div class="paquete-card" style="border-color:var(--morado);border-width:2px">
+      <div class="paquete-header" style="background:linear-gradient(135deg,#ede6fb,#ceb3f7)">
+        <div class="paquete-nivel" style="color:#5a30a0">Bachillerato / Uni</div>
+        <h3 style="color:#1a1a2e">Paquete Prepa+</h3>
+        <div class="precio" style="color:#7c4dcc">$690 <span>/ kit</span></div>
+      </div>
+      <ul class="paquete-items">
+        <li>Cuadernos profesionales surtidos</li>
+        <li>Kit de lapiceros y plumas de gel</li>
+        <li>Resaltadores multicolor</li>
+        <li>Portafolio y separadores</li>
+        <li>Calculadora científica incluida</li>
+      </ul>
+      <a href="https://wa.me/52" class="paquete-cta" style="background:#ede6fb;color:#7c4dcc">Pedir paquete</a>
+    </div>
+  </div>
+  <p style="text-align:center;margin-top:24px;font-size:14px;color:var(--texto-mid)">¿Tu lista tiene requisitos especiales? Armamos paquetes personalizados. Contáctanos por WhatsApp.</p>
+</section>
+
+<section class="section" style="background:#f9f5ef;padding-top:60px;padding-bottom:60px">
+  <div style="text-align:center;margin-bottom:40px">
+    <div class="section-tag">Opiniones reales</div>
+    <h2 class="section-title">Lo que dicen<br>nuestros <span class="accent">clientes</span></h2>
+  </div>
+  <div class="reviews-grid" style="max-width:900px;margin:0 auto">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Excelente servicio, brindan mucha atención y si algún producto no lo tienen lo consiguen. Son muy amables."</p>
+      <div class="review-author">Cliente satisfecho</div>
+      <div class="review-date">hace 6 años</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Muy buen servicio y atención. Encuentras amplio surtido de productos y te dan ideas cuando haces una maqueta."</p>
+      <div class="review-author">Cliente frecuente</div>
+      <div class="review-date">hace 8 años</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Excelente atención y servicio. Encontré todo lo que buscaba. Buen precio. ¡Muy recomendable!"</p>
+      <div class="review-author">Cliente recurrente</div>
+      <div class="review-date">hace 3 años</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contacto">
+  <div class="section-tag">Horarios y contacto</div>
+  <h2 class="section-title">Visítanos o<br><span class="accent">escríbenos</span></h2>
+  <p class="section-sub">Estamos abiertos todos los días para servirte. También puedes hacer pedidos y apartados por WhatsApp.</p>
+  <div class="horarios-section">
+    <div class="horario-card">
+      <h3 style="font-size:17px;font-weight:600;margin-bottom:20px">🕐 Horarios de atención</h3>
+      <div class="horario-row"><span class="dia">Lunes a Viernes</span><span class="hora">9:00 am – 9:00 pm</span></div>
+      <div class="horario-row"><span class="dia">Sábado</span><span class="hora">9:00 am – 9:00 pm</span></div>
+      <div class="horario-row"><span class="dia">Domingo</span><span class="hora">10:00 am – 7:00 pm</span></div>
+      <div style="margin-top:20px;background:var(--rosa-claro);border-radius:12px;padding:14px 16px">
+        <p style="font-size:13px;color:var(--rosa);font-weight:600;margin-bottom:4px">🌟 Abiertos hoy</p>
+        <p style="font-size:13px;color:var(--texto-mid)">¡Pasa a visitarnos y encuentra todo lo que necesitas!</p>
+      </div>
+    </div>
+    <div class="contact-card">
+      <h3 style="font-size:17px;font-weight:600;margin-bottom:20px">📍 Encuéntranos</h3>
+      <div class="contact-item">
+        <div class="c-icon-wrap" style="background:#fde8f0">📍</div>
+        <div><div class="c-label">Dirección</div><div class="c-value">Papelería, Regalos e Internet Gamis</div></div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon-wrap" style="background:#d8f5e8">📱</div>
+        <div><div class="c-label">WhatsApp / Teléfono</div><div class="c-value">Próximamente</div></div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon-wrap" style="background:#deeaf8">⭐</div>
+        <div><div class="c-label">Calificación Google</div><div class="c-value">4.3 / 5 · 62 reseñas</div></div>
+      </div>
+      <a href="#" class="btn-primary" style="margin-top:20px;display:block;text-align:center;background:var(--verde)">Ver en Google Maps</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="brand-name">Gamis<span>.</span></div>
+      <p>Tu papelería, regalería e internet de confianza. Más de 15 años sirviéndote con atención personalizada y los mejores precios.</p>
+      <div style="margin-top:16px"><span class="rating-pill">★ 4.3 Google</span></div>
+    </div>
+    <div class="footer-col">
+      <h4>Servicios</h4>
+      <a href="#servicios">Papelería</a>
+      <a href="#servicios">Regalos</a>
+      <a href="#servicios">Internet</a>
+      <a href="#servicios">Impresiones</a>
+      <a href="#joyeria">Joyería</a>
+    </div>
+    <div class="footer-col">
+      <h4>Especiales</h4>
+      <a href="#apartados">Sistema de apartados</a>
+      <a href="#online">Tienda online</a>
+      <a href="#paquetes">Paquetes escolares</a>
+    </div>
+    <div class="footer-col">
+      <h4>Horarios</h4>
+      <a href="#contacto">Lun–Sáb: 9am – 9pm</a>
+      <a href="#contacto">Dom: 10am – 7pm</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Papelería, Regalos e Internet Gamis. Todos los derechos reservados.</span>
+    <span>Hecho con ❤️</span>
+  </div>
+</footer>
+
+<a href="https://wa.me/52" class="wa-btn" target="_blank" title="WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+</body>
+</html>

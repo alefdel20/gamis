@@ -96,6 +96,15 @@
 
   .lead-phrase{font-size:1.35rem; font-style:italic; line-height:1.7; max-width:640px; margin:0 auto;}
 
+  /* Separador decorativo entre secciones */
+  .monogram{
+    text-align:center; padding:1.5rem;
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    font-size:1.1rem; letter-spacing:.35em;
+  }
+  .monogram--light{background:var(--blanco); color:var(--vino);}
+  .monogram--dark{background:var(--vino); color:var(--lila-suave);}
+
   /* Ubicación */
   .location-card{
     max-width:1000px; margin:2.5rem auto 0;
@@ -272,20 +281,26 @@
   </ol>
 </section>
 
-<section class="section-dark fade" id="vestimenta">
+<div class="monogram monogram--dark" aria-hidden="true">L · J</div>
+
+<section class="section-dark section-compact fade" id="vestimenta">
   <div class="center">
     <div class="eyebrow">Código de vestimenta</div>
     <h2>Coctel-formal de día</h2>
   </div>
 </section>
 
-<section class="section-light fade" id="regalos">
+<div class="monogram monogram--light" aria-hidden="true">L · J</div>
+
+<section class="section-light section-compact fade" id="regalos">
   <div class="center">
     <div class="eyebrow">Regalos</div>
     <p>Lo más importante es tu compañía, pero si deseas darnos un regalo, abrimos una mesa.</p>
     <a class="btn btn-on-light" href="https://www.amazon.com.mx/wedding/share/LJ2027" target="_blank" rel="noopener noreferrer">Ver mesa de regalos</a>
   </div>
 </section>
+
+<div class="monogram monogram--dark" aria-hidden="true">L · J</div>
 
 <section class="section-dark" id="rsvp">
   <div class="center fade">

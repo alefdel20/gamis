@@ -97,12 +97,26 @@
   .lead-phrase{font-size:1.35rem; font-style:italic; line-height:1.7; max-width:640px; margin:0 auto;}
 
   /* Ubicación */
+  .location-card{
+    max-width:1000px; margin:2.5rem auto 0;
+    display:grid; grid-template-columns:1fr; gap:1.75rem;
+  }
+  .location-info{text-align:center;}
   .address{margin-top:.8rem; line-height:1.7;}
   .map-embed{
-    width:100%; height:320px; margin-top:1.6rem;
+    width:100%; height:260px;
     border-radius:0;
   }
   .leaflet-container{font-family:'Jost',sans-serif;}
+
+  @media(min-width:768px){
+    .location-card{
+      grid-template-columns:minmax(220px,380px) 1fr;
+      align-items:center; gap:2.5rem;
+    }
+    .location-info{text-align:left;}
+    .map-embed{height:340px; border:1px solid rgba(255,255,255,.15);}
+  }
 
   /* Programa */
   .timeline{
@@ -189,9 +203,9 @@
 
   @media(min-width:640px){
     section{padding:6.5rem 1.5rem;}
+    .section-compact{padding:4rem 1.5rem;}
     form{max-width:520px;}
     .btn{width:auto; display:inline-block;}
-    .map-embed{height:420px;}
   }
 
   @media(min-width:900px){
@@ -232,14 +246,14 @@
 </section>
 
 <section class="section-dark fade" id="lugar">
-  <div class="center">
-    <div class="eyebrow">Ubicación</div>
-    <h2>Jardín Serata</h2>
-    <p class="address">Niños Héroes 12, El Dorado, Tlalnepantla, 54020</p>
-  </div>
-  <div id="mapa-serata" class="map-embed"></div>
-  <div class="center">
-    <a class="btn btn-on-dark" href="https://maps.app.goo.gl/xK5brJAkRQNrexw5A" target="_blank" rel="noopener noreferrer">Ver ubicación</a>
+  <div class="location-card">
+    <div class="location-info">
+      <div class="eyebrow">Ubicación</div>
+      <h2>Jardín Serata</h2>
+      <p class="address">Niños Héroes 12, El Dorado, Tlalnepantla, 54020</p>
+      <a class="btn btn-on-dark" href="https://maps.app.goo.gl/xK5brJAkRQNrexw5A" target="_blank" rel="noopener noreferrer">Ver ubicación</a>
+    </div>
+    <div id="mapa-serata" class="map-embed"></div>
   </div>
 </section>
 

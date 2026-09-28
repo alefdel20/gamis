@@ -115,6 +115,14 @@
   .section-dark .timeline .time{color:var(--blanco);}
   .timeline .label{display:block; font-size:.9rem; letter-spacing:.05em;}
 
+  /* Galería */
+  .gallery-grid{
+    display:grid; grid-template-columns:1fr; gap:.5rem; margin-top:2.5rem;
+    max-width:1000px; margin-left:auto; margin-right:auto;
+  }
+  .gallery-grid img{width:100%; height:auto; display:block; object-fit:cover;}
+  .gallery-grid img:not(:first-child){aspect-ratio:4/3;}
+
   /* Botones */
   .btn{
     display:block; width:100%; text-align:center; margin-top:1.6rem;
@@ -184,6 +192,8 @@
     section{padding:6.5rem 1.5rem;}
     form{max-width:520px;}
     .btn{width:auto; display:inline-block;}
+    .gallery-grid{grid-template-columns:1fr 1fr;}
+    .gallery-grid img:first-child{grid-column:1 / -1;}
   }
 
   @media(min-width:900px){
@@ -232,6 +242,21 @@
   </div>
 </section>
 
+<section class="section-light fade" id="galeria">
+  <div class="center">
+    <div class="eyebrow">El lugar</div>
+    <h2>Jardín Serata</h2>
+  </div>
+  <div class="gallery-grid">
+    <img src="assets/img/serata-letrero.webp" width="641" height="670" loading="lazy" decoding="async" alt="Letrero dorado de Serata sobre un muro oscuro, junto a un árbol de flores blancas">
+    <img src="assets/img/salon-terraza-dia.webp" width="639" height="493" loading="lazy" decoding="async" alt="Terraza del salón de día con pasto, sombrillas y mesas">
+    <img src="assets/img/salon-carpa-noche.webp" width="632" height="494" loading="lazy" decoding="async" alt="Salón techado por la noche con mesas, bambú al fondo e iluminación morada">
+    <img src="assets/img/salon-pista-telas.webp" width="638" height="647" loading="lazy" decoding="async" alt="Pista con telas colgantes y luces cálidas por la noche">
+    <img src="assets/img/mesa-centro-de-mesa.webp" width="725" height="1074" loading="lazy" decoding="async" alt="Mesa de madera con vajilla, centro de mesa de flores y tabla de botanas">
+    <img src="assets/img/salon-arco-globos.webp" width="981" height="1000" loading="lazy" decoding="async" alt="Arco de globos con follaje seco y un letrero de neón">
+  </div>
+</section>
+
 <section class="section-light section-tint fade" id="programa">
   <div class="center">
     <div class="eyebrow">Itinerario</div>
@@ -259,8 +284,6 @@
     <a class="btn btn-on-light" href="https://www.amazon.com.mx/wedding/share/LJ2027" target="_blank" rel="noopener noreferrer">Ver mesa de regalos</a>
   </div>
 </section>
-
-<!-- GALERÍA: agregar aquí cuando el cliente entregue fotos reales -->
 
 <section class="section-dark" id="rsvp">
   <div class="center fade">

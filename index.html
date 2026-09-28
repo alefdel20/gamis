@@ -344,7 +344,9 @@
   });
   setupToggle('attendanceToggle', (val)=>{ attendance = val; });
 
-  // Submit -> persistent shared storage
+  // Submit -> Google Sheets vía Apps Script (ver docs/apps-script.gs)
+  const SHEETS_URL = 'PEGAR_URL_EXEC_AQUI';
+
   const form = document.getElementById('rsvpForm');
   const msg = document.getElementById('formMsg');
   const submitBtn = document.getElementById('submitBtn');
@@ -364,6 +366,17 @@
       msg.className = 'form-msg err';
       return;
     }
+    if(companion === 'si' && !companionName){
+      msg.textContent = 'Por favor escribe el nombre de tu acompañante.';
+      msg.className = 'form-msg err';
+      return;
+    }
+    if(SHEETS_URL === 'PEGAR_URL_EXEC_AQUI'){
+      console.error('SHEETS_URL no está configurada: reemplaza el placeholder en index.html con la URL /exec de tu Apps Script.');
+      msg.textContent = 'El formulario aún no está conectado. Por favor avísale a los novios.';
+      msg.className = 'form-msg err';
+      return;
+    }
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Enviando...';
@@ -377,12 +390,17 @@
     };
 
     try{
-      const key = 'rsvp:' + Date.now() + '-' + Math.random().toString(36).slice(2,8);
-      const result = await window.storage.set(key, JSON.stringify(entry), true);
-      if(!result) throw new Error('No se pudo guardar');
+      const res = await fetch(SHEETS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(entry)
+      });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'No se pudo guardar');
+
       msg.textContent = attendance === 'si'
-        ? '¡Gracias ' + fullname.split(' ')[0] + '! Confirmamos tu asistencia. Nos vemos el 10 de enero 💛'
-        : 'Gracias por avisarnos, ' + fullname.split(' ')[0] + '. ¡Los extrañaremos!';
+        ? '¡Gracias ' + fullname.split(' ')[0] + '! Confirmamos tu asistencia. Nos vemos el 10 de enero'
+        : 'Gracias por avisarnos, ' + fullname.split(' ')[0] + '.';
       msg.className = 'form-msg ok';
       form.reset();
       document.getElementById('companionField').style.display = 'none';
@@ -390,6 +408,7 @@
       document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
       document.querySelector('#companionToggle .toggle-btn[data-value="no"]').classList.add('active');
     }catch(err){
+      console.error(err);
       msg.textContent = 'Hubo un problema al enviar tu confirmación. Intenta de nuevo.';
       msg.className = 'form-msg err';
     }finally{

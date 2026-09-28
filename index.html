@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-MX">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lorena y Julio · 10 de enero 2027</title>
+<meta name="description" content="Lorena y Julio se casan el 10 de enero de 2027 en Jardín Serata, Tlalnepantla. Encuentra el itinerario, la ubicación y confirma tu asistencia.">
+<meta name="theme-color" content="#5B2245">
+<meta property="og:title" content="Lorena y Julio · 10 de enero 2027">
+<meta property="og:description" content="Nos casamos y nos encantará compartir este día contigo. Encuentra el itinerario, la ubicación y confirma tu asistencia.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_MX">
+<!-- TODO: agregar og:image cuando el cliente entregue una foto real y exista dominio final -->
+<!-- <meta property="og:image" content="https://TODO-DOMINIO/og-image.jpg"> -->
+<!-- TODO: agregar og:url cuando exista el dominio final -->
+<!-- <meta property="og:url" content="https://TODO-DOMINIO/"> -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23FFFFFF'/%3E%3Ctext x='32' y='44' font-family='Georgia, serif' font-size='28' fill='%235B2245' text-anchor='middle'%3EL&#183;J%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -116,7 +128,6 @@
   .btn-on-light:hover{background:transparent; color:var(--vino);}
 
   /* RSVP */
-  .rsvp p.lead{margin-top:.8rem; font-size:.95rem;}
   form{
     max-width:520px; margin:2.6rem auto 0;
     display:flex; flex-direction:column; gap:1.4rem;
@@ -130,7 +141,7 @@
     width:100%; background:transparent; border:none;
     border-bottom:1px solid var(--lila-suave);
     color:var(--blanco); font-family:'Jost',sans-serif; font-size:1rem;
-    padding:.55rem .1rem; outline:none;
+    padding:.55rem .1rem;
   }
   .field input::placeholder{color:rgba(255,255,255,.55);}
   .field input:focus{border-bottom-color:var(--blanco);}
@@ -141,8 +152,8 @@
     background:transparent; color:var(--blanco); font-family:'Jost',sans-serif; font-size:.85rem;
     cursor:pointer; transition:.25s;
   }
-  .toggle-btn:focus-visible{outline:2px solid var(--blanco); outline-offset:2px;}
-  .toggle-btn.active{background:var(--blanco); border-color:var(--blanco); color:var(--vino);}
+  .toggle-btn[aria-pressed="true"]{background:var(--blanco); border-color:var(--blanco); color:var(--vino); font-weight:600;}
+  .toggle-btn[aria-pressed="true"]::before{content:"✓ ";}
   #companionField{display:none;}
   .submit-btn{
     margin-top:.6rem; padding:1rem; border:1px solid var(--blanco);
@@ -151,7 +162,6 @@
     cursor:pointer; transition:.25s;
   }
   .submit-btn:hover{background:transparent; color:var(--blanco);}
-  .submit-btn:focus-visible{outline:2px solid var(--blanco); outline-offset:2px;}
   .submit-btn[disabled]{opacity:.6; cursor:default;}
   .form-msg{font-size:.85rem; margin-top:.4rem; min-height:1.2em;}
   .form-msg.ok{color:var(--lila-suave);}
@@ -164,10 +174,22 @@
   }
   footer p{font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; color:var(--lila-suave);}
 
+  /* Foco visible en todos los controles */
+  :focus-visible{outline:2px solid var(--vino); outline-offset:2px;}
+  .section-dark :focus-visible,
+  .hero :focus-visible,
+  footer :focus-visible{outline-color:var(--blanco);}
+
   @media(min-width:640px){
     section{padding:6.5rem 1.5rem;}
     form{max-width:520px;}
     .btn{width:auto; display:inline-block;}
+  }
+
+  @media(min-width:900px){
+    section{padding:7.5rem 2rem;}
+    .center{max-width:720px;}
+    .timeline{max-width:480px;}
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -255,8 +277,8 @@
     <div class="field">
       <label>¿Llevarás a alguien?</label>
       <div class="toggle-row" id="companionToggle" role="group" aria-label="¿Llevarás a alguien?">
-        <button type="button" class="toggle-btn" data-value="si">Sí</button>
-        <button type="button" class="toggle-btn active" data-value="no">No</button>
+        <button type="button" class="toggle-btn" data-value="si" aria-pressed="false">Sí</button>
+        <button type="button" class="toggle-btn" data-value="no" aria-pressed="true">No</button>
       </div>
     </div>
 
@@ -268,8 +290,8 @@
     <div class="field">
       <label>¿Confirmas tu asistencia?</label>
       <div class="toggle-row" id="attendanceToggle" role="group" aria-label="¿Confirmas tu asistencia?">
-        <button type="button" class="toggle-btn" data-value="si">Sí, asistiré</button>
-        <button type="button" class="toggle-btn" data-value="no">No podré ir</button>
+        <button type="button" class="toggle-btn" data-value="si" aria-pressed="false">Sí, asistiré</button>
+        <button type="button" class="toggle-btn" data-value="no" aria-pressed="false">No podré ir</button>
       </div>
     </div>
 
@@ -330,8 +352,8 @@
     const btns = group.querySelectorAll('.toggle-btn');
     btns.forEach(btn=>{
       btn.addEventListener('click', ()=>{
-        btns.forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
+        btns.forEach(b=>b.setAttribute('aria-pressed','false'));
+        btn.setAttribute('aria-pressed','true');
         onChange(btn.dataset.value);
       });
     });
@@ -405,8 +427,8 @@
       form.reset();
       document.getElementById('companionField').style.display = 'none';
       companion = 'no'; attendance = null;
-      document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
-      document.querySelector('#companionToggle .toggle-btn[data-value="no"]').classList.add('active');
+      document.querySelectorAll('.toggle-btn').forEach(b=>b.setAttribute('aria-pressed','false'));
+      document.querySelector('#companionToggle .toggle-btn[data-value="no"]').setAttribute('aria-pressed','true');
     }catch(err){
       console.error(err);
       msg.textContent = 'Hubo un problema al enviar tu confirmación. Intenta de nuevo.';

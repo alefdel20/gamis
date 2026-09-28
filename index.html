@@ -52,6 +52,7 @@
 
   /* ---------- Hero ---------- */
   .hero{
+    position:relative;
     min-height:100vh;
     display:flex; align-items:center; justify-content:center; text-align:center;
     padding:2rem 1.25rem;
@@ -78,6 +79,15 @@
   .countdown-done{
     margin-top:2rem; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.6rem; color:var(--blanco);
   }
+  .scroll-cue{
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    color:var(--blanco); opacity:.75; font-size:.7rem; letter-spacing:.2em; text-transform:uppercase;
+  }
+  .scroll-cue .line{
+    width:1px; height:24px; background:var(--blanco); margin:8px auto 0;
+    opacity:.7; animation:pulse 2s infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:.2} 50%{opacity:.8}}
 
   /* ---------- Sections ---------- */
   section{padding:4rem 1.25rem;}
@@ -223,9 +233,14 @@
     .timeline{max-width:480px;}
   }
 
+  @media(min-width:1200px){
+    .hero{min-height:85vh;}
+  }
+
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
     .fade{transition:none; opacity:1; transform:none;}
+    .scroll-cue .line{animation:none;}
   }
 </style>
 </head>
@@ -244,6 +259,7 @@
     </div>
     <p class="countdown-done" id="countdownDone" hidden>¡Hoy es el gran día!</p>
   </div>
+  <div class="scroll-cue">Desliza<div class="line"></div></div>
 </header>
 
 <main>

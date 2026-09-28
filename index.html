@@ -453,7 +453,7 @@
   setupToggle('attendanceToggle', (val)=>{ attendance = val; });
 
   // Submit -> Google Sheets vía Apps Script (ver docs/apps-script.gs)
-  const SHEETS_URL = 'PEGAR_URL_EXEC_AQUI';
+  const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzd47ckGDNawAXB7KSVog1bXHBmGDyS3TZ08OQdAtKL8hTID9BUc32hNVSBUIwBLYOB/exec';
 
   const form = document.getElementById('rsvpForm');
   const msg = document.getElementById('formMsg');
@@ -479,13 +479,6 @@
       msg.className = 'form-msg err';
       return;
     }
-    if(SHEETS_URL === 'PEGAR_URL_EXEC_AQUI'){
-      console.error('SHEETS_URL no está configurada: reemplaza el placeholder en index.html con la URL /exec de tu Apps Script.');
-      msg.textContent = 'El formulario aún no está conectado. Por favor avísale a los novios.';
-      msg.className = 'form-msg err';
-      return;
-    }
-
     submitBtn.disabled = true;
     submitBtn.textContent = 'Enviando...';
 

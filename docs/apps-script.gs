@@ -6,9 +6,47 @@
 // SHEETS_URL dentro de index.html.
 //
 // Encabezados esperados en la hoja "Confirmaciones" (fila 1):
-// Fecha | Nombre | Asistirá | Lleva acompañante | Acompañante | Personas
+// Fecha | Invitado | Asistirá | Personas
 
 const SHEET_NAME = 'Confirmaciones';
+
+// SINCRONIZAR con index.html
+const GUEST_LIST = [
+  "Jorge García",
+  "Andrea García y Alejandro Flores",
+  "Hugo García",
+  "Rebeca Rivera",
+  "Romina Rivera",
+  "Jorge Armando García",
+  "Victoria Contreras",
+  "Julieta Contreras",
+  "Victor Delgado",
+  "Victor Contreras",
+  "Claudia León",
+  "Ximena Contreras",
+  "Fernanda Contreras y Óscar Reyes",
+  "Mariana Contreras",
+  "Julián Mendoza",
+  "Pina Contreras",
+  "Gabriela Ruiz y Rubén",
+  "Martha de Haro y Eoin Vaughan",
+  "Julio Morales",
+  "Andrea Amezcua",
+  "Leslie Briseño y Miguel Ángel Bello",
+  "Susana Bourde",
+  "Daniel Peña",
+  "Miguel Hernández y Lulú Soto",
+  "Lepoldo Hernández",
+  "Marco Hernández y Laura Roa",
+  "Carolina Hernández",
+  "Leticia Bonifacio",
+  "Rosa Bonifacio",
+  "Isabella Paz y Efraín Marbán",
+  "Laura Facio",
+  "Ana Baez y Dylan",
+  "María Fernanda Maya",
+  "Celina Maya"
+];
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -16,22 +54,22 @@ function doPost(e) {
     lock.waitLock(10000);
     const d = JSON.parse(e.postData.contents);
 
-    const nombre = clean(d.fullname);
-    if (!nombre) throw new Error('Nombre vacío');
+    const invitado = clean(d.invitado);
+    if (!GUEST_LIST.includes(invitado)) {
+      throw new Error('Invitado no reconocido');
+    }
 
     const asiste = d.attendance === true;
-    const conAcomp = asiste && d.companion === true;
-    const personas = asiste ? (conAcomp ? 2 : 1) : 0;
+    const esPareja = /\sy\s/.test(invitado);
+    const personas = asiste ? (esPareja ? 2 : 1) : 0;
 
     const fecha = Utilities.formatDate(new Date(), 'America/Mexico_City', 'dd/MM/yyyy HH:mm');
     const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
 
     sh.appendRow([
       fecha,
-      nombre,
+      invitado,
       asiste ? 'Sí' : 'No',
-      conAcomp ? 'Sí' : 'No',
-      conAcomp ? clean(d.companionName) : '',
       personas
     ]);
 

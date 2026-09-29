@@ -201,7 +201,6 @@
   }
   .toggle-btn[aria-pressed="true"]{background:var(--blanco); border-color:var(--blanco); color:var(--vino); font-weight:600;}
   .toggle-btn[aria-pressed="true"]::before{content:"✓ ";}
-  #companionField{display:none;}
   .submit-btn{
     margin-top:.6rem; padding:1rem; border:1px solid var(--blanco);
     background:var(--blanco); color:var(--vino); font-family:'Jost',sans-serif;
@@ -339,19 +338,6 @@
     </div>
 
     <div class="field">
-      <label>¿Llevarás a alguien?</label>
-      <div class="toggle-row" id="companionToggle" role="group" aria-label="¿Llevarás a alguien?">
-        <button type="button" class="toggle-btn" data-value="si" aria-pressed="false">Sí</button>
-        <button type="button" class="toggle-btn" data-value="no" aria-pressed="true">No</button>
-      </div>
-    </div>
-
-    <div class="field" id="companionField">
-      <label for="companionName">Nombre de tu acompañante</label>
-      <input type="text" id="companionName" name="companionName" placeholder="Nombre completo del acompañante">
-    </div>
-
-    <div class="field">
       <label>¿Confirmas tu asistencia?</label>
       <div class="toggle-row" id="attendanceToggle" role="group" aria-label="¿Confirmas tu asistencia?">
         <button type="button" class="toggle-btn" data-value="si" aria-pressed="false">Sí, asistiré</button>
@@ -452,12 +438,7 @@
       });
     });
   }
-  let companion = 'no';
   let attendance = null;
-  setupToggle('companionToggle', (val)=>{
-    companion = val;
-    document.getElementById('companionField').style.display = (val === 'si') ? 'block' : 'none';
-  });
   setupToggle('attendanceToggle', (val)=>{ attendance = val; });
 
   // Submit -> Google Sheets vía Apps Script (ver docs/apps-script.gs)
@@ -470,7 +451,6 @@
   form.addEventListener('submit', async (e)=>{
     e.preventDefault();
     const fullname = document.getElementById('fullname').value.trim();
-    const companionName = document.getElementById('companionName').value.trim();
 
     if(!fullname){
       msg.textContent = 'Por favor escribe tu nombre completo.';
@@ -482,18 +462,11 @@
       msg.className = 'form-msg err';
       return;
     }
-    if(companion === 'si' && !companionName){
-      msg.textContent = 'Por favor escribe el nombre de tu acompañante.';
-      msg.className = 'form-msg err';
-      return;
-    }
     submitBtn.disabled = true;
     submitBtn.textContent = 'Enviando...';
 
     const entry = {
       fullname,
-      companion: companion === 'si',
-      companionName: companion === 'si' ? companionName : null,
       attendance: attendance === 'si',
       submittedAt: new Date().toISOString()
     };
@@ -512,10 +485,8 @@
         : 'Gracias por avisarnos, ' + fullname.split(' ')[0] + '.';
       msg.className = 'form-msg ok';
       form.reset();
-      document.getElementById('companionField').style.display = 'none';
-      companion = 'no'; attendance = null;
+      attendance = null;
       document.querySelectorAll('.toggle-btn').forEach(b=>b.setAttribute('aria-pressed','false'));
-      document.querySelector('#companionToggle .toggle-btn[data-value="no"]').setAttribute('aria-pressed','true');
     }catch(err){
       console.error(err);
       msg.textContent = 'Hubo un problema al enviar tu confirmación. Intenta de nuevo.';

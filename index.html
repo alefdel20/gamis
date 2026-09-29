@@ -184,14 +184,19 @@
     display:block; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
     margin-bottom:.5rem; color:var(--lila-suave);
   }
-  .field input[type=text]{
-    width:100%; background:transparent; border:none;
+  .field select{
+    display:block; width:100%; max-width:100%; min-width:0;
+    background:transparent; border:none; border-radius:0;
     border-bottom:1px solid var(--lila-suave);
     color:var(--blanco); font-family:'Jost',sans-serif; font-size:1rem;
-    padding:.55rem .1rem;
+    padding:.55rem 1.6rem .55rem .1rem;
+    text-overflow:ellipsis; cursor:pointer;
+    -webkit-appearance:none; appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ffffff' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right .2rem center;
   }
-  .field input::placeholder{color:rgba(255,255,255,.55);}
-  .field input:focus{border-bottom-color:var(--blanco);}
+  .field select:focus{border-bottom-color:var(--blanco);}
+  .field select option{color:var(--vino); background:var(--blanco);}
   .toggle-row{display:flex; gap:.7rem; flex-wrap:wrap;}
   .toggle-btn{
     flex:1; min-width:120px; padding:.7rem .5rem; text-align:center;
@@ -333,8 +338,11 @@
 
   <form id="rsvpForm" class="fade">
     <div class="field">
-      <label for="fullname">Nombre completo</label>
-      <input type="text" id="fullname" name="fullname" placeholder="Escribe tu nombre completo" required>
+      <label for="invitado">¿Quién confirma?</label>
+      <select id="invitado" name="invitado" required>
+        <option value="" disabled selected>Selecciona tu nombre de la lista</option>
+        <!-- opciones generadas por JS desde GUEST_LIST -->
+      </select>
     </div>
 
     <div class="field">
@@ -441,6 +449,51 @@
   let attendance = null;
   setupToggle('attendanceToggle', (val)=>{ attendance = val; });
 
+  // SINCRONIZAR con docs/apps-script.gs
+  const GUEST_LIST = [
+    "Jorge García",
+    "Andrea García y Alejandro Flores",
+    "Hugo García",
+    "Rebeca Rivera",
+    "Romina Rivera",
+    "Jorge Armando García",
+    "Victoria Contreras",
+    "Julieta Contreras",
+    "Victor Delgado",
+    "Victor Contreras",
+    "Claudia León",
+    "Ximena Contreras",
+    "Fernanda Contreras y Óscar Reyes",
+    "Mariana Contreras",
+    "Julián Mendoza",
+    "Pina Contreras",
+    "Gabriela Ruiz y Rubén",
+    "Martha de Haro y Eoin Vaughan",
+    "Julio Morales",
+    "Andrea Amezcua",
+    "Leslie Briseño y Miguel Ángel Bello",
+    "Susana Bourde",
+    "Daniel Peña",
+    "Miguel Hernández y Lulú Soto",
+    "Lepoldo Hernández",
+    "Marco Hernández y Laura Roa",
+    "Carolina Hernández",
+    "Leticia Bonifacio",
+    "Rosa Bonifacio",
+    "Isabella Paz y Efraín Marbán",
+    "Laura Facio",
+    "Ana Baez y Dylan",
+    "María Fernanda Maya",
+    "Celina Maya"
+  ];
+
+  const guestSelect = document.getElementById('invitado');
+  GUEST_LIST.forEach(name=>{
+    const option = document.createElement('option');
+    option.value = option.textContent = name;
+    guestSelect.appendChild(option);
+  });
+
   // Submit -> Google Sheets vía Apps Script (ver docs/apps-script.gs)
   const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxYFl35fzHfAEYrcNeNhy0KKunXQ2eyC0K9Un6s8MvLwAjXBvuW9aYpDoMxhBSvFtSq1w/exec';
 
@@ -450,10 +503,10 @@
 
   form.addEventListener('submit', async (e)=>{
     e.preventDefault();
-    const fullname = document.getElementById('fullname').value.trim();
+    const invitado = guestSelect.value;
 
-    if(!fullname){
-      msg.textContent = 'Por favor escribe tu nombre completo.';
+    if(!invitado){
+      msg.textContent = 'Por favor selecciona tu nombre de la lista.';
       msg.className = 'form-msg err';
       return;
     }
@@ -466,7 +519,7 @@
     submitBtn.textContent = 'Enviando...';
 
     const entry = {
-      fullname,
+      invitado: document.getElementById('invitado').value,
       attendance: attendance === 'si',
       submittedAt: new Date().toISOString()
     };
@@ -481,10 +534,11 @@
       if (!data.ok) throw new Error(data.error || 'No se pudo guardar');
 
       msg.textContent = attendance === 'si'
-        ? '¡Gracias ' + fullname.split(' ')[0] + '! Confirmamos tu asistencia. Nos vemos el 10 de enero'
-        : 'Gracias por avisarnos, ' + fullname.split(' ')[0] + '.';
+        ? '¡Gracias! Confirmamos la asistencia de ' + invitado + '. Nos vemos el 10 de enero'
+        : 'Gracias por avisarnos. ¡Los extrañaremos!';
       msg.className = 'form-msg ok';
       form.reset();
+      guestSelect.selectedIndex = 0;
       attendance = null;
       document.querySelectorAll('.toggle-btn').forEach(b=>b.setAttribute('aria-pressed','false'));
     }catch(err){

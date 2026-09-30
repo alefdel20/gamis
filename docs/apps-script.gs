@@ -59,12 +59,20 @@ function doPost(e) {
       throw new Error('Invitado no reconocido');
     }
 
+    const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+
+    // Columna B = "Invitado" (Fecha | Invitado | Asistirá | Personas)
+    const columnaInvitados = sh.getRange(2, 2, Math.max(sh.getLastRow() - 1, 0), 1).getValues().flat();
+    const yaConfirmado = columnaInvitados.some(v => String(v).trim().toLowerCase() === invitado.toLowerCase());
+    if (yaConfirmado) {
+      return json({ ok: false, code: 'DUPLICADO', error: 'Ya habíamos registrado la confirmación de ' + invitado + '. Si necesitas corregirla, contacta directamente a Lorena y Julio.' });
+    }
+
     const asiste = d.attendance === true;
     const esPareja = /\sy\s/.test(invitado);
     const personas = asiste ? (esPareja ? 2 : 1) : 0;
 
     const fecha = Utilities.formatDate(new Date(), 'America/Mexico_City', 'dd/MM/yyyy HH:mm');
-    const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
 
     sh.appendRow([
       fecha,

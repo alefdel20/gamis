@@ -627,6 +627,12 @@
         body: JSON.stringify(entry)
       });
       const data = await res.json();
+      if (!data.ok && data.code === 'DUPLICADO'){
+        // Reintentar con el mismo nombre siempre falla: solo mostramos el aviso del servidor
+        msg.textContent = data.error;
+        msg.className = 'form-msg err';
+        return;
+      }
       if (!data.ok) throw new Error(data.error || 'No se pudo guardar');
 
       msg.textContent = attendance === 'si'

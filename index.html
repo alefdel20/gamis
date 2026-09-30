@@ -184,19 +184,32 @@
     display:block; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
     margin-bottom:.5rem; color:var(--lila-suave);
   }
-  .field select{
-    display:block; width:100%; max-width:100%; min-width:0;
+  .combobox-field{position:relative;}
+  .field input[type=text]{
+    display:block; width:100%; min-width:0;
     background:transparent; border:none; border-radius:0;
     border-bottom:1px solid var(--lila-suave);
     color:var(--blanco); font-family:'Jost',sans-serif; font-size:1rem;
-    padding:.55rem 1.6rem .55rem .1rem;
-    text-overflow:ellipsis; cursor:pointer;
-    -webkit-appearance:none; appearance:none;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ffffff' stroke-width='1.5'/%3E%3C/svg%3E");
-    background-repeat:no-repeat; background-position:right .2rem center;
+    padding:.55rem .1rem;
   }
-  .field select:focus{border-bottom-color:var(--blanco);}
-  .field select option{color:var(--vino); background:var(--blanco);}
+  .field input::placeholder{color:rgba(255,255,255,.55);}
+  .field input:focus{border-bottom-color:var(--blanco);}
+  .combobox-list{
+    position:absolute; left:0; right:0; top:100%; z-index:50;
+    margin:.2rem 0 0; padding:0; list-style:none;
+    max-height:260px; overflow-y:auto; overscroll-behavior:contain;
+    background:var(--blanco); color:var(--vino);
+    box-shadow:0 8px 24px rgba(0,0,0,.28);
+  }
+  .combobox-list[hidden]{display:none;}
+  .combobox-list li{
+    padding:.7rem .8rem; font-size:.95rem; line-height:1.3; cursor:pointer;
+    overflow-wrap:anywhere;
+  }
+  .combobox-list li:hover{background:var(--lila-claro);}
+  .combobox-list li.active{background:var(--lila-claro); box-shadow:inset 3px 0 0 var(--vino);}
+  .combobox-list li.combobox-empty{cursor:default; font-style:italic; opacity:.8;}
+  .combobox-list li.combobox-empty:hover{background:transparent;}
   .toggle-row{display:flex; gap:.7rem; flex-wrap:wrap;}
   .toggle-btn{
     flex:1; min-width:120px; padding:.7rem .5rem; text-align:center;
@@ -337,12 +350,11 @@
   </div>
 
   <form id="rsvpForm" class="fade">
-    <div class="field">
+    <div class="field combobox-field">
       <label for="invitado">¿Quién confirma?</label>
-      <select id="invitado" name="invitado" required>
-        <option value="" disabled selected>Selecciona tu nombre de la lista</option>
-        <!-- opciones generadas por JS desde GUEST_LIST -->
-      </select>
+      <input type="text" id="invitado" role="combobox" aria-expanded="false" aria-controls="invitado-listbox"
+             aria-autocomplete="list" autocomplete="off" placeholder="Escribe tu nombre..." required>
+      <ul id="invitado-listbox" role="listbox" class="combobox-list" hidden></ul>
     </div>
 
     <div class="field">
@@ -487,12 +499,96 @@
     "Celina Maya"
   ];
 
-  const guestSelect = document.getElementById('invitado');
-  GUEST_LIST.forEach(name=>{
-    const option = document.createElement('option');
-    option.value = option.textContent = name;
-    guestSelect.appendChild(option);
+  // Combobox con autocompletado (insensible a mayúsculas y acentos)
+  const norm = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+  const guestInput = document.getElementById('invitado');
+  const guestListbox = document.getElementById('invitado-listbox');
+  let selectedGuest = null;
+  let shown = [];
+  let activeIndex = -1;
+
+  function closeListbox(){
+    guestListbox.hidden = true;
+    guestInput.setAttribute('aria-expanded','false');
+    guestInput.removeAttribute('aria-activedescendant');
+    activeIndex = -1;
+  }
+  function setActive(i){
+    const items = guestListbox.querySelectorAll('li[role=option]');
+    items.forEach((li,idx)=>{
+      const on = idx === i;
+      li.classList.toggle('active', on);
+      li.setAttribute('aria-selected', on ? 'true' : 'false');
+      if(on){
+        guestInput.setAttribute('aria-activedescendant', li.id);
+        li.scrollIntoView({block:'nearest'});
+      }
+    });
+    if(i < 0) guestInput.removeAttribute('aria-activedescendant');
+    activeIndex = i;
+  }
+  function renderListbox(){
+    const q = norm(guestInput.value);
+    if(!q){ closeListbox(); return; }
+    shown = GUEST_LIST.filter(n => norm(n).includes(q));
+    guestListbox.innerHTML = '';
+    activeIndex = -1;
+    guestInput.removeAttribute('aria-activedescendant');
+    if(!shown.length){
+      const li = document.createElement('li');
+      li.className = 'combobox-empty';
+      li.setAttribute('role','presentation');
+      li.textContent = 'No encontramos ese nombre en la lista';
+      guestListbox.appendChild(li);
+    }
+    shown.forEach((name,i)=>{
+      const li = document.createElement('li');
+      li.id = 'invitado-opt-' + i;
+      li.setAttribute('role','option');
+      li.setAttribute('aria-selected','false');
+      li.textContent = name;
+      // mousedown evita que el input pierda el foco antes del clic
+      li.addEventListener('mousedown', ev=>ev.preventDefault());
+      li.addEventListener('click', ()=>chooseGuest(name));
+      guestListbox.appendChild(li);
+    });
+    guestListbox.hidden = false;
+    guestInput.setAttribute('aria-expanded','true');
+  }
+  function chooseGuest(name){
+    guestInput.value = name;
+    selectedGuest = name;
+    closeListbox();
+  }
+
+  guestInput.addEventListener('input', ()=>{
+    const q = norm(guestInput.value);
+    selectedGuest = GUEST_LIST.find(n => norm(n) === q) || null;
+    renderListbox();
   });
+  guestInput.addEventListener('focus', renderListbox);
+  guestInput.addEventListener('keydown', ev=>{
+    const open = !guestListbox.hidden && shown.length > 0;
+    if(ev.key === 'ArrowDown' || ev.key === 'ArrowUp'){
+      ev.preventDefault();
+      if(guestListbox.hidden) renderListbox();
+      if(!shown.length) return;
+      const step = ev.key === 'ArrowDown' ? 1 : -1;
+      setActive(activeIndex < 0 ? (step > 0 ? 0 : shown.length - 1) : (activeIndex + step + shown.length) % shown.length);
+    }else if(ev.key === 'Enter' && open && activeIndex >= 0){
+      ev.preventDefault();
+      chooseGuest(shown[activeIndex]);
+    }else if(ev.key === 'Escape' && !guestListbox.hidden){
+      ev.preventDefault();
+      closeListbox();
+    }
+  });
+  document.addEventListener('click', ev=>{
+    if(!ev.target.closest('.combobox-field')) closeListbox();
+  });
+  guestInput.addEventListener('blur', ()=>setTimeout(()=>{
+    if(!document.activeElement || !document.activeElement.closest('.combobox-field')) closeListbox();
+  },0));
 
   // Submit -> Google Sheets vía Apps Script (ver docs/apps-script.gs)
   const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxYFl35fzHfAEYrcNeNhy0KKunXQ2eyC0K9Un6s8MvLwAjXBvuW9aYpDoMxhBSvFtSq1w/exec';
@@ -503,10 +599,10 @@
 
   form.addEventListener('submit', async (e)=>{
     e.preventDefault();
-    const invitado = guestSelect.value;
+    const invitado = selectedGuest;
 
-    if(!invitado){
-      msg.textContent = 'Por favor selecciona tu nombre de la lista.';
+    if(!invitado || !GUEST_LIST.includes(invitado)){
+      msg.textContent = 'Por favor selecciona tu nombre de la lista de opciones.';
       msg.className = 'form-msg err';
       return;
     }
@@ -519,7 +615,7 @@
     submitBtn.textContent = 'Enviando...';
 
     const entry = {
-      invitado: document.getElementById('invitado').value,
+      invitado,
       attendance: attendance === 'si',
       submittedAt: new Date().toISOString()
     };
@@ -538,7 +634,8 @@
         : 'Gracias por avisarnos. ¡Los extrañaremos!';
       msg.className = 'form-msg ok';
       form.reset();
-      guestSelect.selectedIndex = 0;
+      selectedGuest = null;
+      closeListbox();
       attendance = null;
       document.querySelectorAll('.toggle-btn').forEach(b=>b.setAttribute('aria-pressed','false'));
     }catch(err){
